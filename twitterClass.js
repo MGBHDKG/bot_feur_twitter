@@ -16,9 +16,10 @@ class twitter
         });
 
         this.rwClient = client.readWrite;
+        this.BOT_ID = "1619634197563310080";
     }
 
-    async searchQuoiTweets()
+    async replyQuoi()
     {
         const tweets = await this.rwClient.search('quoi');
 
@@ -30,16 +31,15 @@ class twitter
         {
             if(endWithQuoi(tweet.text))
             {
-                console.log("Tweet de base :" + tweet.text + "\n");
-                await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
-                break;
+                const replies = await this.rwClient.get("https://api.twitter.com/2/users/"+this.BOT_ID+"/tweets");
+                if(parseInt(replies.data[0].id) < parseInt(tweet.id))
+                {
+                    console.log(tweet);
+                    await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
+                    break;
+                }   
             }
-        }
-    }
-
-    async replyFeur(tweetID,mediaID)
-    {
-        this.rwClient.v1.reply('feur',tweetID,{ media_ids: mediaID });
+        }  
     }
 }
 
