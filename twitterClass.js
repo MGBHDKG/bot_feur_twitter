@@ -21,25 +21,31 @@ class twitter
 
     async replyQuoi()
     {
-        const tweets = await this.rwClient.search('quoi');
+        const replies = await this.rwClient.get("https://api.twitter.com/2/users/"+this.BOT_ID+"/tweets");
+
+        const tweets = await this.rwClient.search('quoi', {"since_id": replies.data[0].id, "tweet.fields" : "created_at", "max_results": 25});
 
         let randomNum = Math.floor(Math.random() * 2) + 1;
 
         const mediaID = await this.rwClient.v1.uploadMedia(`./assets/feur-${randomNum}.mp4`);
 
+        let i =0;
+
         for await (const tweet of tweets)
         {
             if(endWithQuoi(tweet.text))
             {
-                const replies = await this.rwClient.get("https://api.twitter.com/2/users/"+this.BOT_ID+"/tweets");
-                if(parseInt(replies.data[0].id) < parseInt(tweet.id))
-                {
-                    console.log(tweet);
-                    await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
-                    break;
-                }   
+                console.log("Le tweet auquel j'ai répondu est: " + tweet.text);
+                console.log("Posté à :" + tweet.created_at);
+                console.log("Il aura fallu bouclé " + i + " fois pour trouver ce tweet.");
+
+                await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
+                return;
             }
+            i++;
         }  
+
+        console.log("Je n'ai trouvé aucun tweet...");
     }
 }
 
