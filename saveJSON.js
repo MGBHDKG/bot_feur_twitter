@@ -7,6 +7,6 @@ export function saveJSON(data)
           console.error(err);
           return;
         }
-        console.log('Le fichier a été sauvegardé !');
+        console.log('\nLe fichier JSON a été sauvegardé !');
       });
 }

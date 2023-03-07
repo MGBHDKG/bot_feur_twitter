@@ -25,9 +25,9 @@ class twitter
     {
         for(let i=0; i<data.length; i++)
         {
-            if(data[i].text === text)
+            if(data[i].tweet === text)
             {
-                console.log("Le bot a déjà répondu à ce tweet: " + text);
+                console.log("\nLe bot a déjà répondu à ce tweet: " + text);
                 return true;
             }
         }
@@ -51,10 +51,13 @@ class twitter
             {
                 if(this.isAlreadyFeured(tweet.text) == false)
                 {
-                    console.log("Le tweet auquel j'ai répondu est: " + tweet.text);
-                    console.log("Posté à :" + tweet.created_at);
+                    console.log("\nLe tweet auquel j'ai répondu est: " + tweet.text);
+                    console.log("\nPosté à :" + tweet.created_at);
 
-                    data.push({"id": data.length + 1, "tweet": tweet.text});
+                    data.push(
+                        {"id": data.length + 1,
+                         "tweet": tweet.text
+                        });
 
                     saveJSON(data);
 
@@ -64,7 +67,7 @@ class twitter
             }
         }  
 
-        console.log("Je n'ai trouvé aucun tweet...");
+        console.log("\nJe n'ai trouvé aucun tweet...");
     }
 }
 
