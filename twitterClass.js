@@ -51,6 +51,8 @@ class twitter
             {
                 if(this.isAlreadyFeured(tweet.text) == false)
                 {
+                    await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
+                    
                     console.log("\nLe tweet auquel j'ai répondu est: " + tweet.text);
                     console.log("\nPosté à :" + tweet.created_at);
 
@@ -61,7 +63,6 @@ class twitter
 
                     saveJSON(data);
 
-                    await this.rwClient.v1.reply('feur',tweet.id,{ media_ids: mediaID });
                     return;
                 }
             }
